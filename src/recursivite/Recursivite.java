@@ -1,4 +1,7 @@
+package recursivite;
+
 public class Recursivite implements IRecursivite {
+    // Rien n'a été testé, tout est susceptible d'être n'importe quoi
     // cnt means counter
     private static int serieArithmetique_cnt(int acc, int index, int n) {
         if (index == n) {
@@ -49,18 +52,24 @@ public class Recursivite implements IRecursivite {
         return factorielle(n - 1) * n;
     }
 
-    private int puissance(int acc, int b, int n) {
+    private int puissance_old(int acc, int b, int n) {
         if (n == 0) {
             return acc;
         }
-        return puissance(acc + b * b, n - 1);
+        return puissance_old(acc + b * b, n - 1);
     }
 
-    // TODO
+    public int puissance_old(int b, int n) {
+        assert(n > 0);
+        return puissance_old(0, b, n);
+    }
+
     @Override
     public int puissance(int b, int n) {
-        assert(n > 0);
-        return puissance(0, b, n);
+        if (n == 0) {
+            return b;
+        }
+        return puissance(b, n - 1) + b * b;
     }
 
     @Override

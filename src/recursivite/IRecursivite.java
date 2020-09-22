@@ -1,3 +1,5 @@
+package recursivite;
+
 public interface IRecursivite {
     /* 1 + 2 + 3 + ... + n */
     int serieArithmetique(int n);
