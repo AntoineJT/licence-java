@@ -1,5 +1,6 @@
 package recursivite;
 
+@SuppressWarnings("unused")
 public class CorrectionRecursivite implements IRecursivite {
     @Override
     public int serieArithmetique(int n) {

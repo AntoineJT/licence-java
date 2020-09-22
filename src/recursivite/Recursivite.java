@@ -1,5 +1,6 @@
 package recursivite;
 
+@SuppressWarnings("unused")
 public class Recursivite implements IRecursivite {
     // Rien n'a été testé, tout est susceptible d'être n'importe quoi
     // cnt means counter
@@ -34,7 +35,7 @@ public class Recursivite implements IRecursivite {
         if (n == 0) {
             return acc;
         }
-        return factorielle_old(acc * n, n * 1);
+        return factorielle_old(acc * n, n - 1);
     }
 
     @SuppressWarnings("unused")
@@ -56,7 +57,7 @@ public class Recursivite implements IRecursivite {
         if (n == 0) {
             return acc;
         }
-        return puissance_old(acc + b * b, n - 1);
+        return puissance_old(acc + b * b, b, n - 1);
     }
 
     public int puissance_old(int b, int n) {
