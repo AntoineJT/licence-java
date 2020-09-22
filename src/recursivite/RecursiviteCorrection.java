@@ -1,7 +1,7 @@
 package recursivite;
 
 @SuppressWarnings("unused")
-public class CorrectionRecursivite implements IRecursivite {
+public class RecursiviteCorrection implements IRecursivite {
     @Override
     public int serieArithmetique(int n) {
         if (n == 0) {
@@ -20,7 +20,13 @@ public class CorrectionRecursivite implements IRecursivite {
 
     @Override
     public int puissance(int b, int n) {
-        return 0;
+        if (n == 0) {
+            return 1;
+        }
+        if (n % 2 == 0) {
+            return puissance(b * b, n / 2);
+        }
+        return puissance(b, n - 1) * b;
     }
 
     @Override

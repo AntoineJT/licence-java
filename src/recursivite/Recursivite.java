@@ -3,7 +3,7 @@ package recursivite;
 @SuppressWarnings("unused")
 public class Recursivite implements IRecursivite {
     // Rien n'a été testé, tout est susceptible d'être n'importe quoi
-    // cnt means counter
+    // cnt signifie compteur : counter
     private static int serieArithmetique_cnt(int acc, int index, int n) {
         if (index == n) {
             return acc;
@@ -53,6 +53,7 @@ public class Recursivite implements IRecursivite {
         return factorielle(n - 1) * n;
     }
 
+    // les méthodes suivantes de calcul de puissance sont certainement fausses
     private int puissance_old(int acc, int b, int n) {
         if (n == 0) {
             return acc;
