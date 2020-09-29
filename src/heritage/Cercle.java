@@ -2,26 +2,26 @@ package heritage;
 
 @SuppressWarnings("unused")
 public class Cercle extends Point {
-    private final int radius;
+    private final int rayon;
 
     @SuppressWarnings("unused")
-    public Cercle(int x, int y, int radius) {
+    public Cercle(int x, int y, int rayon) {
         super(x, y);
-        this.radius = radius;
+        this.rayon = rayon;
     }
 
     @SuppressWarnings("unused")
-    public int getRadius() {
-        return radius;
+    public int getRayon() {
+        return rayon;
     }
 
     @SuppressWarnings("unused")
-    public int getDiameter() {
-        return radius * 2;
+    public int getDiametre() {
+        return rayon * 2;
     }
 
     @Override
     public String toString() {
-        return String.format("%s, radius = %d", super.toString(), radius);
+        return String.format("%s, rayon = %d", super.toString(), rayon);
     }
 }
