@@ -42,7 +42,20 @@ public abstract class Function
      */
     public double integrate(double a, double b, int nbSubdivisions)
     {
-        return 0;
+        // TODO To test
+        // Implemented from the formula from https://fr.wikipedia.org/wiki/Méthode_des_trapèzes
+        assert(a < b);
+
+        double step = (b - a) / nbSubdivisions;
+        double quadError = -(Math.pow(b - a, 3) / (12 * Math.pow(nbSubdivisions, 2)));
+        double e = (this.evaluate(a) + this.evaluate(b)) / 2;
+
+        double sum = 0.0f;
+        for (int i = 1; i < nbSubdivisions; i++) {
+            sum += a + i * step;
+        }
+
+        return step * (e + sum) + quadError;
     }
 
     public static void main(String args[])
@@ -133,22 +146,19 @@ abstract class BinaryOperator extends Function
     @Override
     public boolean isZero()
     {
-        // TODO à compléter !
-        return true;
+        return false;
     }
 
     @Override
     public boolean isOne()
     {
-        // TODO à compléter !
-        return true;
+        return false;
     }
 
     @Override
     public boolean isConstant()
     {
-        // TODO à compléter !
-        return true;
+        return false;
     }
 
     /**
@@ -157,7 +167,12 @@ abstract class BinaryOperator extends Function
      */
     protected Function simplifySubTrees()
     {
-        return null;
+        if (this.isConstant()) {
+            return this;
+        }
+        leftSon = leftSon.simplify();
+        rightSon = rightSon.simplify();
+        return this;
     }
 
 }
@@ -202,15 +217,13 @@ class Constant extends Function
     @Override
     public double evaluate(double x)
     {
-        // TODO à compléter
-        return 0;
+        return value;
     }
 
     @Override
     public Function simplify()
     {
-        // TODO à compléter
-        return null;
+        return this;
     }
 
     @Override
@@ -246,15 +259,20 @@ class Minus extends BinaryOperator
     @Override
     public Function derivate()
     {
-        // TODO à compléter
-        return ;
+        return new Minus(leftSon.derivate(), rightSon.derivate()).simplify();
     }
 
     @Override
     public Function simplify()
     {
-        // TODO à compléter
-        return null;
+        if (leftSon.isZero()) {
+            return new Times(new Constant(-1), rightSon);
+        }
+        if (rightSon.isZero()) {
+            return leftSon;
+        }
+        // return new Minus(leftSon.simplify(), rightSon.simplify());
+        return simplifySubTrees();
     }
 }
 
@@ -272,29 +290,32 @@ class Plus extends BinaryOperator
     @Override
     public char toChar()
     {
-        // TODO à compléter
-        return '?';
+        return '+';
     }
 
     @Override
     public double evaluate(double x)
     {
-        // TODO à compléter
-        return 0;
+        return leftSon.evaluate(x) + rightSon.evaluate(x);
     }
 
     @Override
     public Function derivate()
     {
-        // TODO à compléter
-        return null;
+        return new Plus(leftSon.derivate(), rightSon.derivate()).simplify();
     }
 
     @Override
     public Function simplify()
     {
-        // TODO à compléter
-        return null;
+        if (leftSon.isZero()) {
+            return rightSon;
+        }
+        if (rightSon.isZero()) {
+            return leftSon;
+        }
+        //return new Plus(leftSon.simplify(), rightSon.simplify());
+        return simplifySubTrees();
     }
 }
 
@@ -312,29 +333,35 @@ class Times extends BinaryOperator
     @Override
     public char toChar()
     {
-        // TODO à compléter
-        return '?';
+        return '*';
     }
 
     @Override
     public double evaluate(double x)
     {
-        // TODO à compléter
-        return 0;
+        return leftSon.evaluate(x) * rightSon.evaluate(x);
     }
 
     @Override
     public Function derivate()
     {
-        // TODO à compléter
-        return null;
+        return new Times(leftSon.derivate(), rightSon.derivate()).simplify();
     }
 
     @Override
     public Function simplify()
     {
-        // TODO à compléter
-        return null;
+        if (leftSon.isZero() || rightSon.isZero()) {
+            return new Constant(0);
+        }
+        if (leftSon.isOne()) {
+            return rightSon;
+        }
+        if (rightSon.isOne()) {
+            return leftSon;
+        }
+        //return new Times(leftSon.simplify(), rightSon.simplify());
+        return simplifySubTrees();
     }
 }
 
@@ -352,28 +379,31 @@ class Div extends BinaryOperator
     @Override
     public char toChar()
     {
-        // TODO à compléter
-        return '?';
+        return '/';
     }
 
     @Override
-    public double evaluate(double x)
+    public double evaluate(double x) throws ArithmeticException
     {
-        // TODO à compléter
-        return 0;
+        if (rightSon.isZero()) {
+            throw new ArithmeticException("Division by Zero");
+        }
+        return leftSon.evaluate(x) / rightSon.evaluate(x);
     }
 
     @Override
     public Function derivate()
     {
-        // TODO à compléter
-        return null;
+        return new Div(leftSon.derivate(), rightSon.derivate()).simplify();
     }
 
     @Override
     public Function simplify()
     {
-        // TODO à compléter
-        return null;
+        if (rightSon.isOne()) {
+            return leftSon;
+        }
+        //return new Div(leftSon.simplify(), rightSon.simplify());
+        return simplifySubTrees();
     }
 }
