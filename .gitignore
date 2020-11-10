@@ -3,3 +3,5 @@ out/
 *.iml
 .DS_Store
 /bin/
+.classpath
+.project
