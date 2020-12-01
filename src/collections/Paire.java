@@ -1,3 +1,5 @@
+package collections;
+
 public class Paire<T> {
     T first;
     T second;
