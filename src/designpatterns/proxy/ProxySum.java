@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProxySum {
-    private final List<Integer> cache;
+    private final List<Long> cache;
 
     public ProxySum() {
         cache = new ArrayList<>();
     }
 
-    public int sumFromOneTo(int to) {
+    public long sumFromOneTo(int to) {
         exAssert(to > 1, "Your call to ProxySum#sumFromOneTo is useless: result will be 1 because to=" + to);
 
         if (cache.size() >= to) {
@@ -20,7 +20,7 @@ public class ProxySum {
         }
 
         final int size = cache.size();
-        int result = size > 0 ? cache.get(size - 1) : 1;
+        long result = size > 0 ? cache.get(size - 1) : 1;
 
         for (int i = size + 2; i <= to; ++i) {
             result += i;
